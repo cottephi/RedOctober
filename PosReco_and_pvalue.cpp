@@ -1,3 +1,5 @@
+////////////////Created by Philipp Kampmann and Philippe Cotte//////////////
+
 #include <vector>
 
 using namespace std;
