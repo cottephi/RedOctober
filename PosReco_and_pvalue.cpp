@@ -23,7 +23,6 @@ pair<double,bool> pvalue(double N, double bckg, int nsigmas){
   poisson->SetParameter(0,bckg);
   double pvalue =  1-poisson->Integral(0,N-1);
   double n_sigma =  poisson->Integral(0,bckg+nsigmas*TMath::Sqrt(bckg));
-  cout << " " << nsigmas << " " << Significance(N-bckg,bckg) << endl;
   if(1-pvalue > n_sigma){
     Is_n_sigma = true;
   }
@@ -57,12 +56,12 @@ void PosReco_and_pvalue(){
 
   
   int Nmodules = 80;
-  vector<double> Powers = {150};//in MW    ,120,90,60,30
+  vector<double> Powers = {180,150,120,90,60,30};//in MW    ,120,90,60,30
   vector<int> GrColors = {632,600,417,401,800,433};
   double ModuleDy = 10*1e3; // in km. Distance between modules
   double zpos = 1e3; //1000 m overburden in the ocean (water)
   double dt = 10.; //min
-  double MassTarget = 50; //in ktons
+  double MassTarget = 100; //in ktons
   double startx = -100*1e3;
   double endx = 100*1e3;
     
@@ -112,7 +111,7 @@ void PosReco_and_pvalue(){
           time_for_one_event = time;
         }
       }
-      if(Powers.size()>0){
+      if(Powers.size() > 1){
         approachgraph.back()->SetPoint(approachgraph.back()->GetN(),time,TotEventCount);
         approachgraphBG->SetPoint(approachgraphBG->GetN(),time,BGEventCount-1);
       }
@@ -169,12 +168,12 @@ void PosReco_and_pvalue(){
   TCanvas* significance_can = new TCanvas("Moving_submarine_pvalue","moving_submarine_pvalue",1500,750);
   approachgrapSignificance[0]->Draw("AC3");
   significance_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_pvalue.png").data());
-  significance_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_pvalue.root").data());
+  //significance_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_pvalue.root").data());
   
   TCanvas* significance_derivative_can = new TCanvas("significance_derivative_can","significance_derivative_can",1500,750);
   derivative_significance[0]->Draw("AC3");
   significance_derivative_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_timewindow.png").data());
-  significance_derivative_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_timewindow.root").data());
+  //significance_derivative_can->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_timewindow.root").data());
   
   
   TCanvas* c1 = new TCanvas("Sub_path","Sub_path",1500,750);
@@ -192,8 +191,8 @@ void PosReco_and_pvalue(){
   sub_coordinates->SetMarkerStyle(2);
   modules_coordinates->Draw();
   sub_coordinates->Draw();
-  c1->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_coordinates.png").data());
-  c1->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_coordinates.root").data());
+  //c1->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_coordinates.png").data());
+  //c1->SaveAs(string("modules"+to_string(Nmodules)+"_power"+to_string_with_precision(Powers[0],3)+"_km"+to_string_with_precision(endx/1e3,3)+"_mass"+to_string_with_precision(MassTarget,3)+"_coordinates.root").data());
   return;
 }
 
